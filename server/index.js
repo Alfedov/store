@@ -2,6 +2,9 @@ const express = require('express')
 const sequelize = require('./database')
 const models = require('./models/models')
 const cors = require('cors')
+const fileupload = require('express-fileupload')
+const router = require('./routers/index')
+const errorHandler = require('./midelware/ErrorHandlingMiddleware')
 
 require('dotenv').config()
 
@@ -10,12 +13,11 @@ const PORT = process.env.PORT
 
 app.use(cors())
 app.use(express.json())
+app.use(fileupload({}))
+app.use('/api', router)
 
-app.get('/', (req, res) => {
-    res.status(200).json({message: 'Work!'})
-})
-
-
+// Обработка ошибок
+app.use(errorHandler)
 
 const start = async () => {
     try {
