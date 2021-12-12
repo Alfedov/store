@@ -5,6 +5,7 @@ const cors = require('cors')
 const fileupload = require('express-fileupload')
 const router = require('./routers/index')
 const errorHandler = require('./midelware/ErrorHandlingMiddleware')
+const path = require('path')
 
 require('dotenv').config()
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.resolve(__dirname, 'static')))
 app.use(fileupload({}))
 app.use('/api', router)
 
